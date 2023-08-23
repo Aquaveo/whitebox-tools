@@ -327,12 +327,14 @@ class WhiteboxTools(object):
                 proc = Popen(args2, shell=False, stdout=PIPE,
                             stderr=STDOUT, bufsize=1, universal_newlines=True)
 
+            pattern = re.compile(".*: [0-9][0-9]?%.*")
             while proc is not None:
                 line = proc.stdout.readline()
                 sys.stdout.flush()
                 if line != '':
                     if not self.cancel_op:
-                        if self.verbose:
+                        percent_exists = pattern.match(line)
+                        if not percent_exists and self.verbose:
                             callback(line.strip())
                     else:
                         self.cancel_op = False
