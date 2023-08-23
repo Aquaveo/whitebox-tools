@@ -862,6 +862,7 @@ impl Shapefile {
                         writer.write_f64::<LittleEndian>(self.records[i].points[0].x)?;
                         writer.write_f64::<LittleEndian>(self.records[i].points[0].y)?;
                         writer.write_f64::<LittleEndian>(self.records[i].z_array[0])?;
+                        writer.write_f64::<LittleEndian>(self.records[i].m_array[0])?;
                     }
                 }
             }
@@ -1427,6 +1428,9 @@ impl Shapefile {
                     if sg.points[0].y < self.header.y_min {
                         self.header.y_min = sg.points[0].y;
                     }
+                    if sg.m_array[0] < self.header.m_min {
+                        self.header.m_min = sg.m_array[0];
+                    }
                     if sg.z_array[0] < self.header.z_min {
                         self.header.z_min = sg.z_array[0];
                     }
@@ -1437,8 +1441,11 @@ impl Shapefile {
                     if sg.points[0].y > self.header.y_max {
                         self.header.y_max = sg.points[0].y;
                     }
-                    if sg.z_array[0] > self.header.z_max {
-                        self.header.z_max = sg.z_array[0];
+                    if sg.m_array[0] > self.header.m_max {
+                        self.header.m_max = sg.m_array[0];
+                    }
+                    if sg.z_array[0] > self.header.z_min {
+                        self.header.z_min = sg.z_array[0];
                     }
                 }
             }
