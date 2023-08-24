@@ -66,6 +66,9 @@ class WhiteboxTools(object):
         #     self.exe_name) or path.dirname(path.abspath(__file__)))
         # self.exe_path = os.path.dirname(os.path.join(os.path.realpath(__file__)))
         self.exe_path = path.dirname(path.abspath(__file__))
+        if not running_windows:
+            whitebox_tools_exe = os.path.join(self.exe_path, self.exe_name)
+            os.system("chmod 755 " + whitebox_tools_exe)  # grant executable permission
 
         self.work_dir = ""
         self.verbose = True
