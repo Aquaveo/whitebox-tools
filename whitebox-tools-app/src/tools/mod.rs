@@ -1242,11 +1242,10 @@ impl ToolManager {
                 let plugin_list = self.get_plugin_list()?;
                 if plugin_list.contains_key(&tool_name.to_lowercase()) {
                     let plugin_data = plugin_list.get(&tool_name.to_lowercase()).expect(&format!("Unrecognized plugin name {}.", tool_name));
-                    let ext = if cfg!(target_os = "windows") {
-                        ".exe"
-                    } else {
-                        ""
-                    };
+                    let mut ext = "";
+                    if cfg!(target_os = "windows") {
+                        ext = ".exe";
+                    }
                     // environment flags should be consumed by plugins using the settings.json file instead.
                     let mut args2 = vec![];
                     for a in 0..args.len() {
@@ -1265,6 +1264,14 @@ impl ToolManager {
                         .replace("\"", ""),
                         ext
                     );
+                    if ext != ".exe" {
+                        let exe2 = exe.clone();
+                        Command::new("chmod")
+                            .arg("755")
+                            .arg(exe2)
+                            .output()
+                            .expect("failed to run chmod to set permissions");
+                    }
                     let mut subcommand = vec!["run".to_string()];
                     subcommand.extend_from_slice(&args);
                     let mut child = Command::new(exe)
