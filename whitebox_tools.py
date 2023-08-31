@@ -66,9 +66,9 @@ class WhiteboxTools(object):
         #     self.exe_name) or path.dirname(path.abspath(__file__)))
         # self.exe_path = os.path.dirname(os.path.join(os.path.realpath(__file__)))
         self.exe_path = path.dirname(path.abspath(__file__))
+        self.exe_file = os.path.join(self.exe_path, self.exe_name)
         if not running_windows:
-            whitebox_tools_exe = os.path.join(self.exe_path, self.exe_name)
-            os.system("chmod 755 " + whitebox_tools_exe)  # grant executable permission
+            os.system("chmod 755 " + f'"{self.exe_file}"')  # grant executable permission
 
         self.work_dir = ""
         self.verbose = True
@@ -130,7 +130,7 @@ class WhiteboxTools(object):
 
             os.chdir(self.exe_path)
             args2 = []
-            args2.append("." + path.sep + self.exe_name)
+            args2.append(self.exe_file)
             
             if self.verbose:
                 args2.append("-v")
@@ -186,7 +186,7 @@ class WhiteboxTools(object):
 
             os.chdir(self.exe_path)
             args2 = []
-            args2.append("." + path.sep + self.exe_name)
+            args2.append(self.exe_file)
             
             if self.__compress_rasters:
                 args2.append("--compress_rasters=true")
@@ -239,7 +239,7 @@ class WhiteboxTools(object):
 
             os.chdir(self.exe_path)
             args2 = []
-            args2.append("." + path.sep + self.exe_name)
+            args2.append(self.exe_file)
             
             args2.append(f"--max_procs={val}")
 
@@ -291,7 +291,7 @@ class WhiteboxTools(object):
 
             os.chdir(self.exe_path)
             args2 = []
-            args2.append("." + path.sep + self.exe_name)
+            args2.append(self.exe_file)
             args2.append("--run=\"{}\"".format(to_camelcase(tool_name)))
 
             if self.work_dir.strip() != "":
@@ -358,7 +358,7 @@ class WhiteboxTools(object):
         try:
             os.chdir(self.exe_path)
             args = []
-            args.append("." + os.path.sep + self.exe_name)
+            args.append(self.exe_file)
             args.append("-h")
 
             proc = Popen(args, shell=False, stdout=PIPE,
@@ -382,7 +382,7 @@ class WhiteboxTools(object):
         try:
             os.chdir(self.exe_path)
             args = []
-            args.append("." + os.path.sep + self.exe_name)
+            args.append(self.exe_file)
             args.append("--license")
             if toolname is not None:
                 args.append(f"={toolname}")
@@ -408,7 +408,7 @@ class WhiteboxTools(object):
         try:
             os.chdir(self.exe_path)
             args = []
-            args.append("." + os.path.sep + self.exe_name)
+            args.append(self.exe_file)
             args.append("--version")
 
             proc = Popen(args, shell=False, stdout=PIPE,
@@ -432,7 +432,7 @@ class WhiteboxTools(object):
         try:
             os.chdir(self.exe_path)
             args = []
-            args.append("." + os.path.sep + self.exe_name)
+            args.append(self.exe_file)
             args.append("--toolhelp={}".format(to_camelcase(tool_name)))
 
             proc = Popen(args, shell=False, stdout=PIPE,
@@ -456,7 +456,7 @@ class WhiteboxTools(object):
         try:
             os.chdir(self.exe_path)
             args = []
-            args.append("." + os.path.sep + self.exe_name)
+            args.append(self.exe_file)
             args.append("--toolparameters={}".format(to_camelcase(tool_name)))
 
             proc = Popen(args, shell=False, stdout=PIPE,
@@ -480,7 +480,7 @@ class WhiteboxTools(object):
         try:
             os.chdir(self.exe_path)
             args = []
-            args.append("." + os.path.sep + self.exe_name)
+            args.append(self.exe_file)
             args.append("--toolbox={}".format(to_camelcase(tool_name)))
 
             proc = Popen(args, shell=False, stdout=PIPE,
@@ -505,7 +505,7 @@ class WhiteboxTools(object):
         try:
             os.chdir(self.exe_path)
             args = []
-            args.append("." + os.path.sep + self.exe_name)
+            args.append(self.exe_file)
             args.append("--viewcode={}".format(to_camelcase(tool_name)))
 
             proc = Popen(args, shell=False, stdout=PIPE,
@@ -529,7 +529,7 @@ class WhiteboxTools(object):
         try:
             os.chdir(self.exe_path)
             args = []
-            args.append("." + os.path.sep + self.exe_name)
+            args.append(self.exe_file)
             args.append("--listtools")
             if len(keywords) > 0:
                 for kw in keywords:
