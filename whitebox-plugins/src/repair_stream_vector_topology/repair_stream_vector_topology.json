@@ -30,6 +30,14 @@
             "parameter_type": "Float",
             "default_value": "",
             "optional": false
+        },
+        {
+            "name": "Reverse backward arcs?",
+            "flags": ["--reverse_backward_arcs"],
+            "description": "Optional flag to request that arcs that can be proven to be backwards have their direction reversed.",
+            "parameter_type": "Boolean",
+            "default_value": "true",
+            "optional": true
         }
     ]
 }
