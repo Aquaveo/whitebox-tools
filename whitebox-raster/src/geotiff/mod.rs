@@ -3354,6 +3354,7 @@ pub fn write_geotiff<'a>(r: &'a mut Raster) -> Result<(), Error> {
     // Write the larger_values_data //
     //////////////////////////////////
     write_bytes(&mut writer, larger_values_data.get_inner())?;
+    let _ = writer.flush();
 
     Ok(())
 }
