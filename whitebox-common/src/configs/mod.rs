@@ -66,12 +66,12 @@ pub fn save_configs<'a>(configs: &Configs) -> std::result::Result<(), Error> {
             match file.write_all(configs_json.as_bytes()) {
                 Ok(()) => {}, // do nothing
                 Err(_e) => {
-                    eprintln!("Error writing to output settings.json file, likely do to a permissions problem. Settings will not be updated.");
+                    // eprintln!("Error writing to output settings.json file, likely do to a permissions problem. Settings will not be updated.");
                 }
             };
         },
         Err(_e) => { 
-            eprintln!("Could not create output settings.json file. WBT is likely installed somewhere without write permission.")
+            // eprintln!("Could not create output settings.json file. WBT is likely installed somewhere without write permission.")
         }
     };
     
