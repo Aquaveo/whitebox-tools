@@ -2,5 +2,5 @@
 members = ["whitebox-common", "whitebox-lidar", "whitebox-plugins", "whitebox-raster", "whitebox-runner", "whitebox-tools-app", "whitebox-vector"]
 
 [profile.release]
-incremental = true
-strip = "debuginfo"
+    incremental = true
+    strip = true

@@ -1,6 +1,8 @@
 ![](./img/WhiteboxToolsLogoBlue.png)
 
 
+> Note: Compiled WhiteboxTools binaries for Windows, macOS, and Linux can be found at: https://www.whiteboxgeo.com/download-whiteboxtools/
+
 *This page is related to the stand-alone command-line program and Python scripting API for geospatial analysis, **WhiteboxTools**.
 
 The official WhiteboxTools User Manual can be found [at this link](https://whiteboxgeo.com/manual/wbt_book/preface.html).
@@ -46,6 +48,10 @@ It is likely that *WhiteboxTools* will work on a wider variety of operating syst
 ```
 >> python build.py
 ```
+
+Read the notes in the `build.py` file for detailed information about customizing the build. In particular, the `do_clean`,
+`exclude_runner` and `zip` arguments can be used to add or remove functionality during the build process. Running the build
+script requires a Python environment. (Note, WhiteboxTools itself is pure Rust code.)
 
 Depending on your system, the compilation may take several minutes. Also depending on your system, it may be necessary to use the `python3` command instead. When completed, the script will have created a new `WBT` folder within `whitebox-tools`. This folder will contain all of the files needed to run the program, including the main Whitebox executable file (whitebox_tools.exe), the Whitebox Runner GUI application, and the various plugins.
 

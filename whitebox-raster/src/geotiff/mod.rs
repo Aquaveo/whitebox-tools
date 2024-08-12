@@ -784,8 +784,28 @@ pub fn read_geotiff<'a>(
     //     configs.epsg_code = geokeys_map.get(&3072).unwrap().interpret_as_u16()[0];
     // }
 
-    // Determine the image mode.
     let kw_map = get_keyword_map();
+
+    configs.xy_units = match geokeys_map.get(&3076) {
+        Some(ifd) => {
+            let val = ifd.interpret_as_u16()[0];
+            let proj_linear_units_map = kw_map.get(&3076u16).unwrap();
+            proj_linear_units_map.get(&val).unwrap().to_string()
+        },
+        None => "not specified".to_string()
+    };
+
+    configs.z_units = match geokeys_map.get(&4099u16) {
+        Some(ifd) => {
+            let val = ifd.interpret_as_u16()[0];
+            let vertical_units_map = kw_map.get(&4099u16).unwrap();
+            vertical_units_map.get(&val).unwrap().to_string()
+        },
+        None => "not specified".to_string()
+    };
+
+    // Determine the image mode.
+    // let kw_map = get_keyword_map();
     let photomet_map = kw_map.get(&262).unwrap();
     let photomet_str: String = photomet_map.get(&photometric_interp).unwrap().to_string();
     // let mode: ImageMode;
@@ -3009,10 +3029,10 @@ pub fn write_geotiff<'a>(r: &'a mut Raster) -> Result<(), Error> {
 
         // tGTCitationGeoKey (1026)
         let mut v = String::from(
-            geographic_type_map
+            *geographic_type_map
                 .get(&r.configs.epsg_code)
                 .unwrap()
-                .clone(),
+                // .clone(),
         );
         v.push_str("|");
         v = v.replace("_", " ");
@@ -3087,10 +3107,10 @@ pub fn write_geotiff<'a>(r: &'a mut Raster) -> Result<(), Error> {
 
         // PCSCitationGeoKey (3073)
         let mut v = String::from(
-            projected_cs_type_map
+            *projected_cs_type_map
                 .get(&r.configs.epsg_code)
                 .unwrap()
-                .clone(),
+                // .clone(),
         );
         v.push_str("|");
         v = v.replace("_", " ");
