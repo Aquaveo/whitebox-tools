@@ -790,7 +790,12 @@ pub fn read_geotiff<'a>(
         Some(ifd) => {
             let val = ifd.interpret_as_u16()[0];
             let proj_linear_units_map = kw_map.get(&3076u16).unwrap();
-            proj_linear_units_map.get(&val).unwrap().to_string()
+            // val may be 32767 (GeoTIFF's "user-defined" sentinel) or otherwise absent from the map, e.g. for
+            // files with an ill-defined/local coordinate system; fall back rather than panic.
+            match proj_linear_units_map.get(&val) {
+                Some(unit) => unit.to_string(),
+                None => "not specified".to_string()
+            }
         },
         None => "not specified".to_string()
     };
@@ -799,7 +804,12 @@ pub fn read_geotiff<'a>(
         Some(ifd) => {
             let val = ifd.interpret_as_u16()[0];
             let vertical_units_map = kw_map.get(&4099u16).unwrap();
-            vertical_units_map.get(&val).unwrap().to_string()
+            // val may be 32767 (GeoTIFF's "user-defined" sentinel) or otherwise absent from the map, e.g. for
+            // files with an ill-defined/local vertical datum; fall back rather than panic.
+            match vertical_units_map.get(&val) {
+                Some(unit) => unit.to_string(),
+                None => "not specified".to_string()
+            }
         },
         None => "not specified".to_string()
     };
